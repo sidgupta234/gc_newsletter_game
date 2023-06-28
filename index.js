@@ -34,19 +34,36 @@ image.src = './img/Pellet Town.png'
 const foregroundImage = new Image()
 foregroundImage.src = './img/ForegroundObjects.png'
 
-const playerImage = new Image()
-playerImage.src = './img/playerDown.png'
+const playerDownImage = new Image()
+playerDownImage.src = './img/playerDown.png'
+
+const playerUpImage = new Image()
+playerUpImage.src = './img/playerUp.png'
+
+const playerLeftImage = new Image()
+playerLeftImage.src = './img/playerLeft.png'
+
+const playerRightImage = new Image()
+playerRightImage.src = './img/playerRight.png'
 
 const player = new Sprite({
     position:{
         x: canvas.width/2 - 192 / 4 + 20,
         y: canvas.height/2 - 68 / 4 + 100
     },
-    image: playerImage,
+    image: playerDownImage,
     frames: {
         max:4
+    },
+    sprites: {
+        up: playerUpImage,
+        down: playerDownImage,
+        left: playerLeftImage,
+        right: playerRightImage
     }
 })
+
+console.log(player)
 
 const background = new Sprite({
     position: {
@@ -119,8 +136,11 @@ function animate(){
     //console.log(keys.ArrowUp.pressed)
 
     let moving = true
+    player.moving = false
 
     if(keys.ArrowUp.pressed && lastKey == 'ArrowUp'){
+        player.moving = true
+        player.image = player.sprites.up
 
         for (let i =0; i < boundaries.length; i++){
             const boundary = boundaries[i]
@@ -150,6 +170,9 @@ function animate(){
     }
 
     else if(keys.ArrowDown.pressed && lastKey == 'ArrowDown') {
+        player.moving = true
+        player.image = player.sprites.down
+
         for (let i =0; i < boundaries.length; i++){
             const boundary = boundaries[i]
             if(
@@ -179,6 +202,9 @@ function animate(){
 
 
     else if(keys.ArrowLeft.pressed && lastKey == 'ArrowLeft') {
+        player.moving = true
+        player.image = player.sprites.left
+
         for (let i =0; i < boundaries.length; i++){
             const boundary = boundaries[i]
             if(
@@ -207,6 +233,9 @@ function animate(){
     }
     
     else if(keys.ArrowRight.pressed && lastKey == 'ArrowRight') {
+        player.moving = true
+        player.image = player.sprites.right
+        
         for (let i =0; i < boundaries.length; i++){
             const boundary = boundaries[i]
             if(
