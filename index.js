@@ -31,7 +31,28 @@ image.onload = () => {
         canvas.height/2- playerImage.height/4,
         playerImage.width/4,
         playerImage.height
-        )
+    )
 }
 
 
+
+
+
+window.addEventListener('keydown', (e) => {
+
+    switch (e.key){
+        case 'ArrowUp':
+            console.log('pressed up')
+            break
+        case 'ArrowDown':
+            console.log('pressed down')
+            break
+        case 'ArrowLeft':
+            console.log('pressed left')
+            break
+        case 'ArrowRight':
+            console.log('pressed right')
+            break
+
+    }
+})
