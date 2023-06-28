@@ -15,9 +15,54 @@ image.src = './img/Pellet Town.png'
 const playerImage = new Image()
 playerImage.src = './img/playerDown.png'
 
+class Sprite {
+    constructor({position, velocity, image}){
+       this.position =  position
+       this.image = image
+    }
 
-image.onload = () => {
-    c.drawImage(image, -750, -550)
+    draw(){
+        c.drawImage(this.image, this.position.x,this.position.y);
+    }
+}
+
+const background = new Sprite({
+    position: {
+    x:-750,
+    y:-550,
+    },
+
+    image: image
+})
+
+// image.onload = () => {
+
+// }
+
+const keys = {
+    ArrowUp:{
+        pressed: false
+    },
+
+    ArrowDown:{
+        pressed: false
+    },
+
+    ArrowLeft:{
+        pressed: false
+    },
+
+    ArrowRight:{
+        pressed: false
+    }
+}
+
+
+
+function animate(){
+    window.requestAnimationFrame(animate) //animate calling itself infinitely recursively 
+    background.draw()
+    //console.log('animate')
     c.drawImage(
         playerImage,
         // Cropping pixels
@@ -32,27 +77,49 @@ image.onload = () => {
         playerImage.width/4,
         playerImage.height
     )
+
+    //console.log(keys.ArrowUp.pressed)
+    if(keys.ArrowUp.pressed) background.position.y += 3
+    else if(keys.ArrowLeft.pressed) background.position.x += 3
+    else if(keys.ArrowDown.pressed) background.position.y -= 3
+    else if(keys.ArrowRight.pressed) background.position.x -= 3
 }
 
 
-
-
+animate()
 
 window.addEventListener('keydown', (e) => {
-
     switch (e.key){
         case 'ArrowUp':
-            console.log('pressed up')
+            keys.ArrowUp.pressed = true
             break
         case 'ArrowDown':
-            console.log('pressed down')
+            keys.ArrowDown.pressed = true
             break
         case 'ArrowLeft':
-            console.log('pressed left')
+            keys.ArrowLeft.pressed = true
             break
         case 'ArrowRight':
-            console.log('pressed right')
+            keys.ArrowRight.pressed = true
             break
-
     }
+    console.log(keys)
+})
+
+window.addEventListener('keyup', (e) => {
+    switch (e.key){
+        case 'ArrowUp':
+            keys.ArrowUp.pressed = false
+            break
+        case 'ArrowDown':
+            keys.ArrowDown.pressed = false
+            break
+        case 'ArrowLeft':
+            keys.ArrowLeft.pressed = false
+            break
+        case 'ArrowRight':
+            keys.ArrowRight.pressed = false
+            break
+    }
+    console.log(keys)
 })
