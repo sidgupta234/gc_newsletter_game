@@ -6,8 +6,49 @@ const c = canvas.getContext('2d')
 canvas.width = 1024
 canvas.height = 576
 
-c.fillStyle = 'White'
-c.fillRect(0, 0, canvas.width, canvas.height)
+const collisionsMap = []
+
+for (let i = 0; i < collisions.length; i+=70){
+    collisionsMap.push(collisions.slice(i, i+70))
+}
+
+class Boundary{
+    static width = 48
+    static height = 48
+    constructor({position, width}){
+        this.position = position
+        this.width = 48
+        this.height = 48
+    }
+
+    draw(){
+        c.fillStyle = 'red'
+        c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+}
+
+const boundaries = []
+
+const offset = {
+    x: -750,
+    y: -550
+}
+
+collisionsMap.forEach((row, i) => {
+    row.forEach((symbol, j) => {
+      if (symbol === 1025)
+        boundaries.push(
+          new Boundary({
+            position: {
+              x: j * Boundary.width + offset.x,
+              y: i * Boundary.height + offset.y
+            }
+          })
+        )
+    })
+  })
+
+console.log(boundaries)
 
 const image = new Image()
 image.src = './img/Pellet Town.png'
@@ -28,8 +69,8 @@ class Sprite {
 
 const background = new Sprite({
     position: {
-    x:-750,
-    y:-550,
+    x:offset.x,
+    y:offset.y,
     },
 
     image: image
@@ -57,12 +98,17 @@ const keys = {
     }
 }
 
-
+ 
 
 function animate(){
     window.requestAnimationFrame(animate) //animate calling itself infinitely recursively 
     background.draw()
-    //console.log('animate')
+    boundaries.forEach(boundary => {
+        boundary.draw()
+    })
+
+
+
     c.drawImage(
         playerImage,
         // Cropping pixels
@@ -79,28 +125,33 @@ function animate(){
     )
 
     //console.log(keys.ArrowUp.pressed)
-    if(keys.ArrowUp.pressed) background.position.y += 3
-    else if(keys.ArrowLeft.pressed) background.position.x += 3
-    else if(keys.ArrowDown.pressed) background.position.y -= 3
-    else if(keys.ArrowRight.pressed) background.position.x -= 3
+    if(keys.ArrowUp.pressed && lastKey == 'ArrowUp') background.position.y += 3
+    else if(keys.ArrowLeft.pressed && lastKey == 'ArrowLeft') background.position.x += 3
+    else if(keys.ArrowDown.pressed && lastKey == 'ArrowDown') background.position.y -= 3
+    else if(keys.ArrowRight.pressed && lastKey == 'ArrowRight') background.position.x -= 3
 }
 
 
 animate()
 
+let lastKey = ''
 window.addEventListener('keydown', (e) => {
     switch (e.key){
         case 'ArrowUp':
             keys.ArrowUp.pressed = true
+            lastKey = 'ArrowUp'
             break
         case 'ArrowDown':
             keys.ArrowDown.pressed = true
+            lastKey = 'ArrowDown'
             break
         case 'ArrowLeft':
             keys.ArrowLeft.pressed = true
+            lastKey = 'ArrowLeft'
             break
         case 'ArrowRight':
             keys.ArrowRight.pressed = true
+            lastKey = 'ArrowRight'
             break
     }
     console.log(keys)
