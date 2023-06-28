@@ -116,6 +116,7 @@ const keys = {
 const movables = [background, ...boundaries, foreground]
 
 function rectangularCollision({ rectangle1, rectangle2 }) {
+
     return (
       rectangle1.position.x + rectangle1.width >= rectangle2.position.x &&
       rectangle1.position.x <= rectangle2.position.x + rectangle2.width &&
@@ -138,6 +139,7 @@ function animate(){
     let moving = true
     player.moving = false
 
+    //console.log(player.position)
     if(keys.ArrowUp.pressed && lastKey == 'ArrowUp'){
         player.moving = true
         player.image = player.sprites.up
@@ -245,7 +247,7 @@ function animate(){
                         ...boundary, 
                         position : {
                             x: boundary.position.x - 3,
-                            y: boundary.position
+                            y: boundary.position.y
                     }}
                 })
             ){
