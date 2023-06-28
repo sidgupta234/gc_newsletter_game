@@ -99,15 +99,23 @@ const keys = {
 }
 
  
+const testBoundary = new Boundary({
+    position: {
+        x: 400,
+        y: 400
+    }
+})
+
+const movables = [background, testBoundary]
 
 function animate(){
     window.requestAnimationFrame(animate) //animate calling itself infinitely recursively 
     background.draw()
-    boundaries.forEach(boundary => {
-        boundary.draw()
-    })
+    // boundaries.forEach(boundary => {
+    //     boundary.draw()
+    // })
 
-
+    testBoundary.draw()
 
     c.drawImage(
         playerImage,
@@ -125,10 +133,28 @@ function animate(){
     )
 
     //console.log(keys.ArrowUp.pressed)
-    if(keys.ArrowUp.pressed && lastKey == 'ArrowUp') background.position.y += 3
-    else if(keys.ArrowLeft.pressed && lastKey == 'ArrowLeft') background.position.x += 3
-    else if(keys.ArrowDown.pressed && lastKey == 'ArrowDown') background.position.y -= 3
-    else if(keys.ArrowRight.pressed && lastKey == 'ArrowRight') background.position.x -= 3
+    if(keys.ArrowUp.pressed && lastKey == 'ArrowUp'){
+        movables.forEach(movable => {
+            movable.position.y += 3
+        })
+    } 
+    else if(keys.ArrowLeft.pressed && lastKey == 'ArrowLeft') {
+        movables.forEach(movable => {
+            movable.position.x += 3
+        })
+    }
+    
+    else if(keys.ArrowDown.pressed && lastKey == 'ArrowDown') {
+        movables.forEach(movable => {
+            movable.position.y -= 3
+        })
+    }
+    
+    else if(keys.ArrowRight.pressed && lastKey == 'ArrowRight') {
+        movables.forEach(movable => {
+            movable.position.x -= 3
+        })
+    }
 }
 
 
